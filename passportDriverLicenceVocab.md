@@ -1,6 +1,6 @@
 # birthDate
 
-birthDate represents person age as integer value
+birthDate represents person birth date (YYYYMMDD) as integer value
 
 ```
   "birthDate": 19941221
@@ -8,7 +8,7 @@ birthDate represents person age as integer value
 
 # name
 
-name represents person age as string value
+person name represents person age as string value
 
 ```
   "name": "my name"
@@ -40,7 +40,7 @@ customerReference represents customer reference as string value
 
 # expiryDate
 
-expiryDate represents expiry date for issued document as integer value
+expiryDate represents expiry date (YYYYMMDD) for issued document as integer value
 
 ```
   "expiryDate": 23610101
@@ -56,7 +56,7 @@ passportNumber represents passport number as string value
 
 # nationality
 
-nationality represents country issue passport as string value
+nationality represents country issuing passport as string value
 
 ```
   "nationality": "AUS"
