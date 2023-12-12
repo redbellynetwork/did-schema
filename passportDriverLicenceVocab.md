@@ -61,3 +61,11 @@ nationality represents country issue passport as string value
 ```
   "nationality": "AUS"
 ```
+
+# publicAddress
+
+publicAddress represents public address of user as string value
+
+```
+  "publicAddress": "0x62D12539c1422E060754394dE70d0a60B247b29A"
+```
