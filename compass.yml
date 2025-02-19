@@ -1,0 +1,18 @@
+name: did-schema
+id: ari:cloud:compass:1794ff3d-579e-455b-ae19-07f3651d7bb2:component/8f784f5d-165e-48a8-800f-432089cd8105/42535eb5-ab09-4a5c-a7f3-0bc8c6492e62
+description: Redbelly DID schema
+configVersion: 1
+typeId: WEBSITE
+ownerId: ari:cloud:identity::team/97cd924d-51ad-48b2-b253-863a8b7f7483
+fields:
+  tier: 4
+links:
+  - name: null
+    type: REPOSITORY
+    url: https://github.com/redbellynetwork/did-schema
+relationships:
+  DEPENDS_ON: []
+labels:
+  - language:shell
+  - source:github
+customFields: null
