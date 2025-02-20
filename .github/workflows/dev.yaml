@@ -1,0 +1,27 @@
+name: did-schema:dev
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  validate:
+    uses: ./.github/workflows/validation-test.yaml
+    secrets: inherit
+  compass-success:
+    needs: [validate]
+    if: success()
+    uses: ./.github/workflows/compass-status.yaml
+    with:
+      compassId: ari:cloud:compass:1794ff3d-579e-455b-ae19-07f3651d7bb2:metric-source/8f784f5d-165e-48a8-800f-432089cd8105/8056e1ab-c9d1-4756-8d53-5b2bbfc2231d
+      metricValue: 1
+    secrets: inherit
+  compass-failure:
+    needs: [validate]
+    if: failure()
+    uses: ./.github/workflows/compass-status.yaml
+    with:
+      compassId: ari:cloud:compass:1794ff3d-579e-455b-ae19-07f3651d7bb2:metric-source/8f784f5d-165e-48a8-800f-432089cd8105/8056e1ab-c9d1-4756-8d53-5b2bbfc2231d
+      metricValue: 0
+    secrets: inherit
+
