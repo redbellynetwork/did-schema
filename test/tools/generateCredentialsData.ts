@@ -37,7 +37,7 @@ function generateRedbellyCredential(callback?: (data: any) => void): any {
     data.updatable = faker.datatype.boolean();
   
     data.credentialSubject = {
-      id: faker.internet.url(),
+      id: faker.string.uuid(),
       publicAddress: faker.finance.ethereumAddress(),
     };
 
@@ -50,7 +50,7 @@ function generateRedbellyCredential(callback?: (data: any) => void): any {
 
 const redbellyCredentialTestScenarios = [
   {
-    name: 'Valid AMLCTFCredential',
+    name: 'Valid Credential',
     data: generateRedbellyCredential(),
     expectedValid: true,
   },
@@ -103,27 +103,6 @@ const redbellyCredentialTestScenarios = [
     }),
     expectedValid: false,
   },
-  // {
-  //   name: 'Extreme Values',
-  //   data: generateRedbellyCredential((data) => {
-  //     data.credentialSubject.publicAddress = 'a'.repeat(1000);
-  //   }),
-  //   expectedValid: false,
-  // },
-  // {
-  //   name: 'Unusual Characters',
-  //   data: generateRedbellyCredential((data) => {
-  //     data.credentialSubject.publicAddress = '💥🔥🚀';
-  //   }),
-  //   expectedValid: false,
-  // },
-  // {
-  //   name: 'Empty Fields',
-  //   data: generateRedbellyCredential((data) => {
-  //     data.credentialSubject.publicAddress = '';
-  //   }),
-  //   expectedValid: false,
-  // },
   {
     name: 'Null Values',
     data: generateRedbellyCredential((data) => {
@@ -166,13 +145,83 @@ const redbellyCredentialTestScenarios = [
     }),
     expectedValid: false,
   },
-  // {
-  //   name: 'Leading/Trailing Spaces',
-  //   data: generateRedbellyCredential((data) => {
-  //     data.credentialSubject.publicAddress = ' 0x00 ';
-  //   }),
-  //   expectedValid: false,
-  // },
+  {
+    name: 'Invalid publicAddress: Too short',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = "0x123";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Leading/Trailing Spaces',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = ' 0xAbCdEf1234567890ABCDEF1234567890abcdef12 ';
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.publicAddress: Contains non-hex characters',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = "0xGHIJKL7890abcdef1234567890abcdef12345678";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.publicAddress: Missing 0x prefix',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = "1234567890abcdef1234567890abcdef12345678";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.publicAddress: Uppercase 0X prefix',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = "0XABCDEF1234567890ABCDEF1234567890ABCDEF12";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Valid credentialSubject.publicAddress: Mixed case (allowed in Ethereum)',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = "0xAbCdEf1234567890ABCDEF1234567890abcdef12";
+    }),
+    expectedValid: true,
+  },
+  {
+    name: 'Empty Fields',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.publicAddress = '';
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.id: Missing hyphens',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.id = "550e8400e29b41d4a716446655440000";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.id: Too short',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.id = "550e8400-e29b-41d4-a716-44665544";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.id: Too long',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.id = "550e8400-e29b-41d4-a716-44665544000000";
+    }),
+    expectedValid: false,
+  },
+  {
+    name: 'Invalid credentialSubject.id: Contains non-hex character (G)',
+    data: generateRedbellyCredential((data) => {
+      data.credentialSubject.id = "550e8400-e29b-41d4-a716-44665544G000";
+    }),
+    expectedValid: false,
+  },
 ];
 
 
